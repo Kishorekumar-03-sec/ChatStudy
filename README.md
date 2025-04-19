@@ -1,5 +1,6 @@
 # Ex. No:1b 			Study of Client Server Chat Applications
-
+## NAME : HIRUTHIK SUDHAKAR
+## REGISTER NUMBER : 212223240054
 ## Aim: 
 To perform a study on Client Server Chat Applications
 ## Introduction:
@@ -73,46 +74,63 @@ Client-server chat applications are versatile tools that facilitate real-time co
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
 
-## Program:
-    Developed by:kishorekumar S
-    Reg no:212224040162
+## PROGRAM:
+### client:
+```python
 
-## CLIENT:
-    import socket
-    s=socket.socket()
-    s.bind(('localhost',8000))
-    s.listen(5)
-    c,addr=s.accept()
-    size=int(input("Enter number of frames to send : "))
-    l=list(range(size))
-    s=int(input("Enter Window Size : "))
-    st=0
-    i=0
-    while True:
-     while(i<len(l)):
-           st+=s
-           c.send(str(l[i:st]).encode())
-           ack=c.recv(1024).decode()
-           if ack:
-               print(ack)
-               i+=s
+import socket
 
-## SERVER:
-    import socket
-    s=socket.socket()
-    s.connect(('localhost',8000))
-    while True: 
-     print(s.recv(1024).decode())
-     s.send("acknowledgement recived from the server".encode())
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+client.connect(("localhost", 9999))
+
+done=False
+
+while not done:
+    client.send(input("Message ").encode('utf-8'))
+    msg = client.recv(1024).decode('utf-8')
+
+    if msg == 'quit':
+        done=True
+    else:
+        print(msg)
+
+
+
+client.close()
+
+```
+### server
+```python
+import socket
+from base64 import decode
+from operator import truediv
+
+server =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(('localhost', 9999))
+server.listen()
+client,addr=server.accept()
+
+done = False
+
+while not done:
+    msg = client.recv(1024).decode('utf-8')
+
+    if msg == 'quit':
+        done = True
+    else:
+        print(msg)
+
+    client.send(input("Message ").encode('utf-8'))
+
+
+client.close()
+server.close()
+```
 
 ## OUTPUT:
-## CLIENT:
 
-![image](https://github.com/user-attachments/assets/6d0e302b-fa15-4041-bc40-3841c460108e)
-
-## SERVER:
-
-![image](https://github.com/user-attachments/assets/8f316c09-949f-45a4-a803-7bd38de8a83e)
+![alt text](image.png)
 
 ## Result:
 
