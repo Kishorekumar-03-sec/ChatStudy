@@ -1,6 +1,8 @@
-# Ex. No:1b 			Study of Client Server Chat Applications
-## NAME : KISHOREKUMAR S
-## REGISTER NUMBER : 212224040162
+# NAME: KISHOREKUMAR S
+# REG NO: 212224040162
+
+# Ex. No:1b Study of Client Server Chat Applications
+
 ## Aim: 
 To perform a study on Client Server Chat Applications
 ## Introduction:
@@ -73,65 +75,68 @@ User authentication mechanisms are essential to ensure secure and authorized acc
 Client-server chat applications are versatile tools that facilitate real-time communication between users over a network. They incorporate various components, including server-side and client-side elements, and must consider factors such as security, scalability, and concurrency. As technology continues to advance, client-server chat applications remain integral for collaborative communication in various domains.
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
-
-## PROGRAM:
-### client:
-```python
-
+## Program
+## server:
+```
 import socket
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+def server_program():
+    
+    host = socket.gethostname()
+    port = 5000  
 
-client.connect(("localhost", 9999))
+    server_socket = socket.socket()  
+    server_socket.bind((host, port)) 
 
-done=False
+    
+    server_socket.listen(2)
+    conn, address = server_socket.accept() 
+    print("Connection from: " + str(address))
+    while True:
+        
+        data = conn.recv(1024).decode()
+        if not data:
+           
+            break
+        print("from connected user: " + str(data))
+        data = input(' -> ')
+        conn.send(data.encode())  
 
-while not done:
-    client.send(input("Message ").encode('utf-8'))
-    msg = client.recv(1024).decode('utf-8')
-
-    if msg == 'quit':
-        done=True
-    else:
-        print(msg)
+    conn.close()  
 
 
-
-client.close()
-
+if __name__ == '__main__':
+    server_program()
 ```
-### server
-```python
+## client:
+```
 import socket
-from base64 import decode
-from operator import truediv
 
-server =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind(('localhost', 9999))
-server.listen()
-client,addr=server.accept()
+def client_program():
+    host = socket.gethostname()  
+    port = 5000  
 
-done = False
+    client_socket = socket.socket()  
+    client_socket.connect((host, port))  
 
-while not done:
-    msg = client.recv(1024).decode('utf-8')
+    message = input(" -> ")  
 
-    if msg == 'quit':
-        done = True
-    else:
-        print(msg)
+    while message.lower().strip() != 'bye':
+        client_socket.send(message.encode())  
+        data = client_socket.recv(1024).decode()  
 
-    client.send(input("Message ").encode('utf-8'))
+        print('Received from server: ' + data)  
+
+        message = input(" -> ")  
+
+    client_socket.close()  
 
 
-client.close()
-server.close()
+if __name__ == '__main__':
+    client_program()
 ```
-
-## OUTPUT:
-
-![image](https://github.com/user-attachments/assets/fb4777a1-466d-42b2-b0c9-e702f5f56b51)
-
+## OUTPUT :
+![Screenshot 2025-04-08 132953](https://github.com/user-attachments/assets/af8f73c9-231d-4fca-b208-246cb103432b)
 
 ## Result:
 
